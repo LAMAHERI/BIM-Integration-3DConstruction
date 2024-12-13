@@ -1,0 +1,1857 @@
+{
+  "Uuid": "1ec2bb7a-04b1-4607-83b5-e0a8fd782ad1",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "1_SEGMENTACION_MUROS",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Math": {
+        "Key": "DSCore.Math",
+        "Value": "DSCoreNodes.dll"
+      },
+      "Elements.Type": {
+        "Key": "archilab.Revit.Elements.Elements",
+        "Value": "archilab2022.dll"
+      },
+      "Elements": {
+        "Key": "archilab.Revit.Elements.Elements",
+        "Value": "archilab2022.dll"
+      }
+    }
+  },
+  "Inputs": [
+    {
+      "Id": "dbf9e959368e4b04a642d0bac61b4582",
+      "Name": "LONGITUD DE CORTE (M)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "2.5",
+      "MaximumValue": 5.0,
+      "MinimumValue": 0.5,
+      "StepValue": 1.0,
+      "NumberType": "Double",
+      "Description": "Produces numeric values",
+      "SelectedIndex": 0
+    },
+    {
+      "Id": "f1627d3edb384589a6766c90871fa43e",
+      "Name": "BORDE (M)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "0.7",
+      "MaximumValue": 1.0,
+      "MinimumValue": 0.0,
+      "StepValue": 0.05,
+      "NumberType": "Double",
+      "Description": "Produces numeric values",
+      "SelectedIndex": 0
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "bc98754aea594c8e9a580bbd9ff1451f",
+      "Name": "Python Script",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Runs an embedded Python script."
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport clr\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Place your code below this line\r\nElementos = UnwrapElement(IN[0])\r\nLista = []\r\n\r\nfor i in Elementos:\r\n    try:\r\n        TransactionManager.Instance.EnsureInTransaction(doc)\r\n        doc.Delete(i.Id)\r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        Lista.append(\"Borrado\")\r\n    except:\r\n        Lista.append(\"No Borrado\")\r\n          \r\nOUT = Lista",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "02d71868925c421084dc4485d8b62edb",
+      "Inputs": [
+        {
+          "Id": "f93fb2ba691a46688aa62ef2cd23eec6",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5e26bbdc59284e6fa318a648bdecc5f9",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.Thread.Pause@var,int",
+      "Id": "5cf5b25eae98498aa00328fd4f98d173",
+      "Inputs": [
+        {
+          "Id": "f6a10c315ee8429e954d8a84a946ba9a",
+          "Name": "object",
+          "Description": "Object to pass through.\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "aaf80b11ba684f14bf5e38c8a434b29c",
+          "Name": "msTimeout",
+          "Description": "Amount of time to pause the thread, in milliseconds.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8fac5e9dcada4841a34dcec4daff6ede",
+          "Name": "object",
+          "Description": "Object passed through.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Pauses the current evaluation thread for a given amount of time.\n\nThread.Pause (object: var, msTimeout: int): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "180;",
+      "Id": "09067267745d478ba58ee232e825f18d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "0c60b131af9344199e0878598e519eb5",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Import RevitNodes\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\n# Import Revit elements\r\nfrom Revit.Elements import *\r\nimport math\r\n\r\n\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\nmuros_limpios_mayores = IN[0]\r\nmax_corte= IN[1]\r\n\r\n# Place your code below this line\r\n\r\nGetLocation_muros = []\r\nlongitudes_muros =[]\r\nfor muros in muros_limpios_mayores:\r\n    longitud = muros.GetParameterValueByName(\"Length\")\r\n    longitudes_muros.append(longitud)\r\n    GetLocation = muros.GetLocation()\r\n    GetLocation_muros.append(GetLocation)\r\n\r\n\r\nnum_cortes_muros = []\r\nlon_cortes_muros = []\r\nparametros = []\r\nlist_remplace =[]\r\n\r\nmuro_limpio=0\r\n\r\nfor longitud_muro in longitudes_muros:\r\n    numero_submuros = math.ceil(float(longitud_muro)/max_corte)\r\n    longitud_submuro = float(longitud_muro)/numero_submuros\r\n    num_cortes_muros.append(numero_submuros)\r\n    lon_cortes_muros.append(longitud_submuro)\r\n    porcentaje_submuro_in_muro = longitud_submuro/longitud_muro\r\n    trayectorias = []\r\n    parametros.append(trayectorias)\r\n    posicion = 0.0\r\n    while posicion<1:\r\n        trayectorias.append(posicion)\r\n        posicion += porcentaje_submuro_in_muro\r\n    c = []\r\n    contador_muros=0\r\n    while contador_muros<numero_submuros:\r\n        c.append(muros_limpios_mayores[muro_limpio])\r\n        contador_muros += 1\r\n    list_remplace.append(c)\r\n    muro_limpio +=1\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = list_remplace\r\n\r\n\r\n\r\n",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "8a5dbcc330b344e181cf6c79d502c9f7",
+      "Inputs": [
+        {
+          "Id": "e761061fb98447c699cea4fa509bf10f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0e28d2a1ee2d46e3b6921693f1836f8f",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "101a9e67b9b6475e8e28b44086415daa",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Import RevitNodes\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\n# Import Revit elements\r\nfrom Revit.Elements import *\r\nimport math\r\n\r\n\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\nmuros_limpios_mayores = IN[0]\r\nmax_corte= IN[1]\r\n\r\n# Place your code below this line\r\n\r\nGetLocation_muros = []\r\nlongitudes_muros =[]\r\nfor muros in muros_limpios_mayores:\r\n    longitud = muros.GetParameterValueByName(\"Length\")\r\n    longitudes_muros.append(longitud)\r\n    GetLocation = muros.GetLocation()\r\n    GetLocation_muros.append(GetLocation)\r\n\r\n\r\nnum_cortes_muros = []\r\nlon_cortes_muros = []\r\nparametros = []\r\nlist_remplace =[]\r\n\r\nmuro_limpio=0\r\n\r\nfor longitud_muro in longitudes_muros:\r\n    numero_submuros = math.ceil(float(longitud_muro)/max_corte)\r\n    longitud_submuro = float(longitud_muro)/numero_submuros\r\n    num_cortes_muros.append(numero_submuros)\r\n    lon_cortes_muros.append(longitud_submuro)\r\n    porcentaje_submuro_in_muro = longitud_submuro/longitud_muro\r\n    trayectorias = []\r\n    parametros.append(trayectorias)\r\n    posicion = 0.0\r\n    while posicion<1:\r\n        trayectorias.append(posicion)\r\n        posicion += porcentaje_submuro_in_muro\r\n    c = []\r\n    contador_muros=0\r\n\r\ncurves = []\r\nfor i in range (0,len(GetLocation_muros)):\r\n    curv = Curve.SplitByParameter(GetLocation_muros[i],parametros[i]) \r\n    curves.append(curv)\r\n\r\n\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = curves\r\n\r\n\r\n\r\n",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "b0fd00a4f64b46e0831573add9dc5cfd",
+      "Inputs": [
+        {
+          "Id": "8a955d5d710942188f37dc12de8603ec",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9eb64f11114a4504809f3c67456a1028",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "83eb4b62dd0c456c8bd0a6ab9d0a056d",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "fb17113f-7ff8-4345-b663-4d1cbb814de7",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "9924ec227adb43f1aa7e533c38d9bd19",
+      "Inputs": [
+        {
+          "Id": "73911e002e5540f7b711a0bbc415603b",
+          "Name": "passThrough",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "98caf73d7d25435eb941b8f38e4bcef9",
+          "Name": "waitFor",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "55d346f39cb642aaaed6a0e97245d115",
+          "Name": "passThrough",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Ripped this off from Clockwork. Sorry Andy."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Flatten@var[]..[],int",
+      "Id": "b72b6bd9aaed46e1a02c250060f44937",
+      "Inputs": [
+        {
+          "Id": "ed3116fa579c4154b04efadb7f2d0c56",
+          "Name": "list",
+          "Description": "List to flatten.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e009dd98c16c4e52a6e9e3ba9e69b9fa",
+          "Name": "amount",
+          "Description": "Layers of list nesting to remove (-1 will remove all list nestings)\n\nint\nDefault value : -1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "eed44c1a573040c79e16c2615b2e60e0",
+          "Name": "list",
+          "Description": "Flattened list by amount",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Longest",
+      "Description": "Flattens a nested list of lists by a certain amount.\n\nList.Flatten (list: var[]..[], amount: int = -1): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "baf73550-ccd9-4c94-8543-5eb088bfd742",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "372096baf4504f69bda342f2a2f35ec4",
+      "Inputs": [
+        {
+          "Id": "888746e162484bd2866a1b8c38440b7c",
+          "Name": "element",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 1,
+          "UseLevels": true,
+          "KeepListStructure": true
+        },
+        {
+          "Id": "52dd29720e4e447ab51df9a721f670ed",
+          "Name": "vector",
+          "Description": "Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9721134a075e4e20ba6aa91fb9d9e371",
+          "Name": "rehostToClosestLevel",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "afcfe21aa5df4cd784622462f0e220aa",
+          "Name": "newElement",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Copies an element or a list of elements by a given vector."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Vector.ByCoordinates@double,double,double",
+      "Id": "40117ee760e8418d80f227eef9fccaae",
+      "Inputs": [
+        {
+          "Id": "909a867ed70447ec98217fc0afec4aed",
+          "Name": "x",
+          "Description": "X coordinate\n\ndouble\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3c6fd80f7508400592ee29d22ae73464",
+          "Name": "y",
+          "Description": "Y coordinate\n\ndouble\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "73876a1af57a4c7ebd121a0adf496e04",
+          "Name": "z",
+          "Description": "Z coordinate\n\ndouble\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "38878e2c17e84e50a1a4585c9536b24f",
+          "Name": "Vector",
+          "Description": "Vector created by coordinates",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Form a Vector by 3 Euclidean coordinates\n\nVector.ByCoordinates (x: double = 0, y: double = 0, z: double = 0): Vector"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.SetLocation@Autodesk.DesignScript.Geometry.Geometry",
+      "Id": "5bd18e6ff3324f6ea473d7dc98208711",
+      "Inputs": [
+        {
+          "Id": "0aa8498b62e54224a5aef6f80bfc17e3",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c54129e5b91d4551b52add36dccded42",
+          "Name": "geometry",
+          "Description": "New Location Point or Curve\n\nGeometry",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "de37933dd6a14ced9195f87d34509377",
+          "Name": "void",
+          "Description": "void",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Update an existing element's location\n\nElement.SetLocation (geometry: Geometry): void"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Importar los módulos necesarios\r\nimport clr\r\nimport sys\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference('RevitAPI')\r\nclr.AddReference('RevitAPIUI')\r\nfrom Autodesk.Revit.DB import FilteredElementCollector, BuiltInCategory, WallUtils \r\n\r\n# Obtener el documento activo de Revit\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuidoc = DocumentManager.Instance.CurrentUIDocument\r\n\r\nelement_collector =  FilteredElementCollector(doc, doc.ActiveView.Id).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType().ToElements()\r\n\r\nTransactionManager.Instance.EnsureInTransaction(doc);\r\n\r\nfor i in range(len(element_collector)):\r\n    try:\r\n        WallUtils.DisallowWallJoinAtEnd(element_collector[i],0)\r\n        WallUtils.DisallowWallJoinAtEnd(element_collector[i],1)\r\n    except :\r\n        print('error')\r\n #Maybe Throw an Error Message...\r\nTransactionManager.Instance.TransactionTaskDone()\r\n\r\nOUT=element_collector",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "bc98754aea594c8e9a580bbd9ff1451f",
+      "Inputs": [
+        {
+          "Id": "6bd71a38397642cc8de91f17e6c94b02",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3efde560a6974ee9a1cb5948a1574f25",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Import RevitNodes\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\n# Import Revit elements\r\nfrom Revit.Elements import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Se recibe un objecto con un lista por cada tipo de muro existente\r\nallWalls = IN[0]\r\n\r\n# Funcion para ordenar una lista de objetos por el valor distanceFromOrigin\r\ndef sortListOfDictsByDistanceFromOrigin(listDicts):\r\n    return sorted(listDicts, key=lambda k: k['distanceFromOrigin'])\r\n\r\n\r\n# Se define una función para crear un objecto que contenga todos los muros con info ùtil para segmentarlos\r\ndef wallsObjectGenerator():\r\n    dictWalls = {}\r\n    planes = []\r\n    # Se recorre por key val el objecto con listas de muros\r\n    \r\n    for keyWall, valueWall in allWalls.items():\r\n        myObjects = []\r\n        myPlanes = []\r\n        # Posteriormente recorremos cada muro dentro de las listas\r\n        for subel in valueWall:\r\n            \r\n            # Obtenemos la coordenada de origen del muro\r\n            originWall = subel.GetLocation().StartPoint\r\n            try:\r\n                normalizeDirection = subel.GetLocation().Direction.Normalized()\r\n                normalToDirection = subel.GetLocation().NormalAtParameter()\r\n            except:\r\n                pass\r\n            \r\n            #Obtenemos todos los posibles elementos que albergue el muro\r\n            hostedElements = subel.GetHostedElements(True, True, True)\r\n            hostedAndLocation = []\r\n            \r\n            # Recorremos los elementos que están incrustados en el muro\r\n            for el in hostedElements:\r\n                # Puesto que las ventanas y puertas en revit están nombradas por sus dimensiones, obtenemos el ancho del elemento basado en su nombre, lo convertimos a un double y guardamos esa varible\r\n                hostType = el.ElementType\r\n                hostTypeProperties = hostType.Parameters\r\n                hostWidth = hostType.GetParameterValueByName(\"Width\")\r\n                hostHeight = hostType.GetParameterValueByName(\"Height\")\r\n                \r\n                # Para cada elemento alojado en el muro obtenemos: la distancia desde el origen, categorìa del elemento, id, el elemento como tal, la coordenada al centro del elemento. Posteriormente guardamos estos parátros en un objeto que se guardará en la lista hostedAndLocation\r\n                \r\n                # Se obtiene las coordenadas del hosted element y se trasladata en Z = 0, restando su mismo valor con el método translate\r\n                hostLoc = el.GetLocation()\r\n                hostLoc = hostLoc.Translate(0, 0, -hostLoc.Z)\r\n                \r\n                hostedAndLocation.append({\r\n                    \"distanceFromOrigin\": originWall.DistanceTo(el.GetLocation()),\r\n                    \"Category\": el.GetCategory,\r\n                    \"elementId\": el.Id,\r\n                    \"hostedName\": el,\r\n                    \"location\": hostLoc,\r\n                    \"hostWidth\": hostWidth,\r\n                    \"hostHeight\": hostHeight\r\n                })\r\n            \r\n            # Se ordenan los objectos dentro de la lista antes de calcular las distancias desde el origen y guardarlos \r\n            hostedAndLocation = sortListOfDictsByDistanceFromOrigin(hostedAndLocation)\r\n           \r\n            # Se crean dos listas, en la primera se guardará la distancia entre un elemento y otro, en la segunda, pasaremos por un condicional de distancia, si la distancia entre los bordes de los elementos es menor a X longitud, deberá generarse un plano de corte entre los elementos\r\n            distances = []\r\n            messages = []\r\n            cutPlanes = []\r\n            for i in range(len(hostedAndLocation)-1):\r\n            \r\n                # Se recorren los hosted elements, y se calcula la distancia entre el elemento i y el elemento i+1 de la lista\r\n                p1 = hostedAndLocation[i][\"location\"]\r\n                p2 = hostedAndLocation[i+1][\"location\"]\r\n                d = p1.DistanceTo(p2)\r\n                distances.append(d)\r\n                # elsWidht contiene la suma de los anchos de los dos i e i+1\r\n                elsWidth = (hostedAndLocation[i][\"hostWidth\"] + hostedAndLocation[i+1][\"hostWidth\"])\r\n                halfWidth = hostedAndLocation[i][\"hostWidth\"]/2\r\n                # Al restar d - elsWidth/2 obtenemos la distancia entre bordes internos de los elementos y al sumar elsWidth obtenemos la distancia a bordes externos\r\n                dToElementBorders = d - (elsWidth/2) + elsWidth\r\n                cutDistanceFromP1 = halfWidth + dToElementBorders/2\r\n                distanceVector = normalizeDirection.Scale(cutDistanceFromP1)\r\n                \r\n                # Luego hacemos unos comparativos, en el primero decimos que si la distancia a bordes externos es menor a 2.20 m, entonces que nos escriba un mensaje  diciendo que debe ir un plano de corte en medio de los dos elementos, en caso contrario que nos diga cuál es la longitud a bordes externos\r\n                if (dToElementBorders < 5):\r\n                    message = \"Entre \" + str(hostedAndLocation[i][\"hostedName\"]) + \" y \" + str(hostedAndLocation[i+1][\"hostedName\"]) + \"Debe ir un plano de corte\"\r\n                    cuttingPoint = p1.Add(distanceVector)\r\n                    cuttingPlane = Plane.ByOriginNormal(p1, normalToDirection)\r\n                    cutPlanes.append(cuttingPlane)\r\n                    messages.append(message)\r\n                elif (dToElementBorders > 6):\r\n                    message = \"Entre \" + str(hostedAndLocation[i][\"hostedName\"]) + \" y \" + str(hostedAndLocation[i+1][\"hostedName\"]) +   \" Hay una longitud de \" + str(dToElementBorders) + \" entre bordes externos\"\r\n                    messages.append(message)\r\n            \r\n            # Creamos un objeto llamado myObject, en donde guardarmos la información del muro, las distancias entre elementos, los mensajes de advertencia y los elementos embebidos en el muro.            \r\n            myObject = {\r\n                \"element\": {\r\n                    \"name\": subel,\r\n                    \"id\": subel.Id,\r\n                    \"lengthWall\": subel.GetParameterValueByName(\"Length\"),\r\n                    \r\n                    \"wallLocation\": {\r\n                        \"startPoint\": subel.GetLocation().StartPoint,\r\n                        \"endPoint\": subel.GetLocation().EndPoint,\r\n                        \"wallLocation\": subel.GetLocation(),\r\n                        #\"direction\": subel.GetLocation().Direction if subel.GetLocation() else 0,\r\n                        #\"normalVector\": subel.GetLocation().Direction.Normalized() if subel.GetLocation() else 0,\r\n                    },\r\n                    \"distances\": distances,\r\n                    \"Messages\": messages\r\n                },\r\n                \"hostedElements\": hostedAndLocation,\r\n                \"Plano de corte\": cutPlanes\r\n            }\r\n            # Guardamos el objeto con la información del muro en una lista con los otros muros\r\n            myObjects.append(myObject)\r\n            myPlanes.append(cutPlanes)\r\n        \r\n        # Luego volvemos a guardar el listado de muros por tipo\r\n        dictWalls[keyWall] = myObjects\r\n        planes = myPlanes\r\n    # como resultado, retornamos un diccionario/objeto con los tipos de muros con la información requerida para el proceso posterior.\r\n    return dictWalls, planes\r\n# Assign your output to the OUT variable.\r\n\r\n\r\n\r\nOUT = wallsObjectGenerator()",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "940887ac8e8c42b3b6de4e1eaec47d11",
+      "Inputs": [
+        {
+          "Id": "99212bb7d0224f36a641c8900b8655f1",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bdaf604e2a4c4453938bce17754d83ba",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5d6fa2e7fe6c4ad8bc59d74dbf234d9e",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Import RevitNodes\r\nclr.AddReference(\"RevitNodes\")\r\n#clr.AddReference(\"WombatDynamo\")\r\n\r\nimport Revit\r\n#import WombatDynamo\r\n\r\n# Import Revit elements\r\nfrom Revit.Elements import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\ndic_muros_host = IN[0]\r\ncorte = IN[1]\r\ndic_muros_host = dic_muros_host[0]\r\n\r\n# Place your code below this line\r\n# Funcion para ordenar una lista de objetos por el valor distanceFromOrigin\r\ndef sortListOfDictsByDistanceFromOrigin(listDicts):\r\n    return sorted(listDicts, key=lambda k: k['distanceFromOrigin'])\r\n\r\ndef typeWalls(distanceWall,lenHostedElements):\r\n    if (distanceWall < corte and lenHostedElements == 0 ):\r\n        return \"Muro Limpio menor\"\r\n    if (distanceWall < corte and lenHostedElements >= 0):\r\n        return \"Muro hueco menor\"\r\n    if (distanceWall > corte and lenHostedElements == 0):\r\n        return \"Muro Limpio mayor\"\r\n    if (distanceWall > corte and lenHostedElements >= 0):\r\n        return \"Muro hueco mayor\"\r\n    \r\n\r\ndef pointsBySegment(dic_muros_host):\r\n    dictSegments = []\r\n    for val in dic_muros_host.values():\r\n        # dictSegments.append(key)\r\n        dictSegments.append(len(val))\r\n        for muro in val: \r\n            distanceWall = muro['element'][\"lengthWall\"]\r\n            lenHostedElements=len(muro['hostedElements'])\r\n            y=typeWalls(distanceWall,lenHostedElements)\r\n            #dictSegments.append(lenHostedElements)\r\n            dictSegments.append(muro[\"element\"]['id'])\r\n            dictSegments.append(y)\r\n            \r\n            \r\n    return dictSegments\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = pointsBySegment(dic_muros_host)\r\n\r\n\r\n",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "80a8c57c5d04462a80f7673c0c1c8ef5",
+      "Inputs": [
+        {
+          "Id": "7b4ae5dc3d554e30b49db04bc09fef8d",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4f8382ff963f4da98830b51ab5544b9b",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "96aefd8960704b5d84c65ad77ad22135",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\nall=IN[0]\r\n\r\nwallsClean = []\r\nlistWall = []\r\nboleanElements = []\r\n\r\nfor i in range(2, len(all), 2):\r\n    listWall.append(all[i - 1])\r\n    if (all[i] == \"Muro Limpio mayor\"):\r\n        wallsClean.append(all[i - 1])\r\n        boleanElements.append(True) \r\n    else:\r\n        boleanElements.append(False) \r\n\r\n    \r\n        \r\n#return wallsClean \r\n\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = boleanElements",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "6520a66f88fa478c9e626f4652a173d7",
+      "Inputs": [
+        {
+          "Id": "3053090f32be4b0a8f81ece47e4f5860",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "110927c182bb4f12b31a7d7a5fc4fc48",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.FilterByBoolMask@var[]..[],var[]..[]",
+      "Id": "adb57c2092cb49209bdf2208d5415b92",
+      "Inputs": [
+        {
+          "Id": "bed3e69c8e0941b68f9b59c1220dd9fb",
+          "Name": "list",
+          "Description": "List to filter.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8dd67d49acc34b7c9d8e2fda8064085f",
+          "Name": "mask",
+          "Description": "List of booleans representing a mask.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8e2cd52915114e79803d29cf604c0028",
+          "Name": "in",
+          "Description": "Items whose mask index is true.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "921c7fc49ec74f2d813539a1be26ae2d",
+          "Name": "out",
+          "Description": "Items whose mask index is false.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Filters a sequence by looking up corresponding indices in a separate list of booleans.\n\nList.FilterByBoolMask (list: var[]..[], mask: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DesignScript.Builtin.Dictionary.ByKeysValues@string[],var[]..[]",
+      "Id": "5509c97d1a804ff7b6482d1d6457f444",
+      "Inputs": [
+        {
+          "Id": "7f5fd238422348d792c5e8d72c0ba13b",
+          "Name": "keys",
+          "Description": "Keys of dictionary\n\nstring[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bec4ba78c8484838b43b78e0ae76083b",
+          "Name": "values",
+          "Description": "Values of dictionary\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "71738bb547cd497b92fba8078e5b274a",
+          "Name": "dictionary",
+          "Description": "Dictionary from keys and values",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Produces a Dictionary with the supplied keys and values. The number of entries is the shorter of keys or values.\n\nDictionary.ByKeysValues (keys: string[], values: var[]..[]): Dictionary"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.GroupByKey@var[]..[],var[]..[]",
+      "Id": "81f092ce51c840ad99bae7962d72bc57",
+      "Inputs": [
+        {
+          "Id": "ad7f193e802540cbbfc723854c6a4413",
+          "Name": "list",
+          "Description": "List of items to group as sublists\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ef23e20fe0c1465b8fb96591c4843874",
+          "Name": "keys",
+          "Description": "Key values, one per item in the input list, used for grouping the items\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "72b8227edcab4b99bd1f5f12583ccaf0",
+          "Name": "groups",
+          "Description": "list of sublists, with items grouped by like key values",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8f71b458302494fb353b76494d5f1e4",
+          "Name": "uniqueKeys",
+          "Description": "key value corresponding to each group",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Group items into sub-lists based on their like key values\n\nList.GroupByKey (list: var[]..[], keys: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.ElementType.Name",
+      "Id": "f7322b7b168f472b98291a1a3d2a9152",
+      "Inputs": [
+        {
+          "Id": "6d6ee42c9d3246348964769c9fe05bd1",
+          "Name": "elementType",
+          "Description": "Revit.Elements.ElementType",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b0da4b5e5a494678ba469aba467ca42d",
+          "Name": "string",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "The name of the ElementType.\n\nElementType.Name: string"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Import RevitNodes\r\nclr.AddReference(\"RevitNodes\")\r\nclr.AddReference(\"archilab\")\r\n\r\nimport Revit\r\nimport archilab\r\n\r\n# Import Revit elements\r\nfrom Revit.Elements import *\r\nimport math\r\n\r\n\r\nDEBUG=[]\r\ndef debug_revit(*args): \r\n    DEBUG.append(f\"uso debug: {len(args)}\")\r\n    for element in args:\r\n        DEBUG.append(f\"type:{type(element)}-->{element}\")\r\n    \r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\nmuros_huecos = IN[0]\r\nCORTE= IN[1]\r\nborde = IN[2]\r\n\r\n# Place your code below this line\r\nLista_puntos=[]\r\nLista_distancias=[]\r\nLista_Ancho_hosted = []\r\nLista_Vector_direccion = []\r\nLista_num_cortes = []\r\nLista_curva_host = []\r\nLista_Lon_muro = []\r\na=0\r\nGetLocation_muros = []\r\n\r\nfor muros in muros_huecos:\r\n    GetLocation = muros.GetLocation()\r\n    GetLocation_muros.append(GetLocation)\r\n    start_location_muro = muros.GetLocation().StartPoint    \r\n    end_location_muro = muros.GetLocation().EndPoint\r\n    Longitud_muro = start_location_muro.DistanceTo(end_location_muro)\r\n    Lista_Lon_muro.append(Longitud_muro)\r\n    num_cortes = math.ceil(float(Longitud_muro/CORTE))-1\r\n    Lista_num_cortes.append(num_cortes)\r\n    hosted = muros.GetHostedElements()\r\n    vector_dirección_x_muro = Vector.ByTwoPoints(start_location_muro,end_location_muro)\r\n    Lista_Vector_direccion.append(vector_dirección_x_muro)\r\n    Anchos_hosteds = []\r\n    Distancias = []\r\n    puntos = []\r\n    sub_lista_curva_host = []\r\n    puntos.append(start_location_muro)\r\n    for i in hosted:\r\n        Tipo_hosted = i.ElementType\r\n        Ancho_hosted = Tipo_hosted.GetParameterValueByName(\"Width\")\r\n        Anchos_hosteds.append(Ancho_hosted)\r\n        loclizacion_hosted = i.GetLocation()\r\n        start_point_hosted = loclizacion_hosted.Translate(vector_dirección_x_muro, -(Ancho_hosted/2))\r\n        end_point_hosted = loclizacion_hosted.Translate(vector_dirección_x_muro, (Ancho_hosted/2))        \r\n        curva_host= Line.ByStartPointEndPoint(start_point_hosted,end_point_hosted)\r\n        sub_lista_curva_host.append(curva_host)\r\n        puntos.append(start_point_hosted)\r\n        puntos.append(end_point_hosted)\r\n        Distancia_start = start_location_muro.DistanceTo(start_point_hosted)\r\n        Distancia_end = start_location_muro.DistanceTo(end_point_hosted)\r\n        Distancias.append(Distancia_start)\r\n        Distancias.append(Distancia_end)\r\n    puntos.append(end_location_muro)\r\n    Distancia_end_muro = start_location_muro.DistanceTo(end_location_muro)\r\n    Distancias.append(Distancia_end_muro)\r\n    Lista_Ancho_hosted.append(Anchos_hosteds)\r\n    Lista_distancias.append(Distancias)\r\n    Lista_puntos.append(puntos)\r\n    Lista_curva_host.append(sub_lista_curva_host)\r\n\r\nfor i, sublista in enumerate(Lista_distancias):\r\n    Lista_distancias[i] = sorted(sublista)\r\n\r\n# Logica de division de muros    \r\nLista_puntos_cortes = []\r\nLista_Planos_ordenada = []\r\nlista_j = []\r\ncrecimiento_k = []\r\nLista_porcentaje = []\r\n\r\nfor i in range (0, len(Lista_distancias)):\r\n    k=0\r\n    Lista_Planos =[]\r\n    distancia_rest = 0\r\n    lista_cortes = []\r\n    Sublista_porcentaje =[]\r\n    for indice, a in enumerate(Lista_distancias[i]): \r\n        if indice % 2 == 0:           \r\n            if (indice == 0):\r\n                distancia_rest = a\r\n                if (distancia_rest>CORTE):            \r\n                    if ((distancia_rest/CORTE)<=((CORTE+borde)/CORTE)):\r\n                        longitud = distancia_rest-borde\r\n                        porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                        Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                        Plano_per = Plane.ByOriginNormal(Punto_c1, Plane.ByOriginNormal(Punto_c1,Lista_Vector_direccion[i]).Normal)\r\n                        lista_cortes.append(longitud)                    \r\n                        Lista_Planos.append(Plano_per)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                    else:\r\n                        j=math.ceil(float(distancia_rest/CORTE))\r\n                        lista_j.append(j)\r\n                        for b in range (1,j+1):\r\n                            longitud = ((distancia_rest-borde)/j)*b\r\n                            porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                            Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                            Plano_per = Plane.ByOriginNormal(Punto_c1, Plane.ByOriginNormal(Punto_c1,Lista_Vector_direccion[i]).Normal)\r\n                            Lista_Planos.append(Plano_per)\r\n                            lista_cortes.append(longitud)\r\n                            Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                            debug_revit('punts:',Punto_c1)                        \r\n                else:\r\n                    if ((distancia_rest/borde)<2):\r\n                        longitud = 0\r\n                        porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                        Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                        lista_cortes.append(longitud)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                        \r\n                    else:\r\n                        longitud = distancia_rest-borde\r\n                        porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                        Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                        Plano_per = Plane.ByOriginNormal(Punto_c1, Plane.ByOriginNormal(Punto_c1,Lista_Vector_direccion[i]).Normal)\r\n                        Lista_Planos.append(Plano_per)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                        lista_cortes.append(longitud)            \r\n            else:\r\n                distancia_rest = a - Lista_distancias[i][indice-1]\r\n                if (distancia_rest>CORTE):  \r\n                    londitud2 = Lista_distancias[i][indice-1] + borde\r\n                    porcentaje_submuro_in_muro = londitud2/Lista_Lon_muro[i]\r\n                    Punto_c2 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],londitud2)\r\n                    Plano_per2 = Plane.ByOriginNormal(Punto_c2, Plane.ByOriginNormal(Punto_c2,Lista_Vector_direccion[i]).Normal)\r\n                    Lista_Planos.append(Plano_per2)\r\n                    lista_cortes.append(londitud2)\r\n                    Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                    \r\n                    if (((a-londitud2)/CORTE) > 1):\r\n                        j=math.ceil(float(distancia_rest/CORTE))\r\n                        lista_j.append(j)\r\n                        for b in range (1,j+1):\r\n                            longitud3 = (((a-londitud2)/j)*b)+londitud2\r\n                            porcentaje_submuro_in_muro = longitud3/Lista_Lon_muro[i]\r\n                            Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud3)\r\n                            Plano_per = Plane.ByOriginNormal(Punto_c3, Plane.ByOriginNormal(Punto_c3,Lista_Vector_direccion[i]).Normal)\r\n                            Lista_Planos.append(Plano_per)\r\n                            lista_cortes.append(longitud3)\r\n                            Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                            debug_revit('punts:',Punto_c3)                     \r\n                    else:\r\n                        longitud2 = 0\r\n                        porcentaje_submuro_in_muro = longitud2/Lista_Lon_muro[i]\r\n                        Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud2)\r\n                        lista_cortes.append(longitud2)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                                                \r\n                else:\r\n                    if ((a-(Lista_distancias[i][indice-2]-borde))<=CORTE):\r\n                        longitud2 = 0\r\n                        porcentaje_submuro_in_muro = longitud2/Lista_Lon_muro[i]\r\n                        Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud2)\r\n                        lista_cortes.append(longitud2)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                    else:\r\n                        longitud2 = Lista_distancias[i][indice-1]+borde\r\n                        porcentaje_submuro_in_muro = longitud2/Lista_Lon_muro[i]\r\n                        Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud2)\r\n                        Plano_per = Plane.ByOriginNormal(Punto_c3, Plane.ByOriginNormal(Punto_c3,Lista_Vector_direccion[i]).Normal)\r\n                        Lista_Planos.append(Plano_per)\r\n                        lista_cortes.append(longitud2)                                             \r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n            \r\n    Lista_Planos_ordenada.append(Lista_Planos)\r\n    Lista_puntos_cortes.append(lista_cortes)\r\n    Lista_porcentaje.append(Sublista_porcentaje)\r\n    \r\ncurves = []\r\nmuro_limpio = 0\r\nlist_remplace = []\r\nfor i in range (0,len(GetLocation_muros)):\r\n    curv = Curve.SplitByParameter(GetLocation_muros[i],Lista_porcentaje[i]) \r\n    curves.append(curv)\r\n    c = []\r\n    contador_muros=0\r\n    while contador_muros<len(Lista_porcentaje[i]):\r\n        c.append(muros_huecos[muro_limpio])\r\n        contador_muros += 1\r\n    list_remplace.append(c)\r\n    muro_limpio +=1    \r\n\r\n    \r\ndebug_revit(longitud,Punto_c1)\r\n# Assign your output to the OUT variable.\r\nOUT = curves",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "6e82d63f6d304c52b3d5075bcf2a7bb7",
+      "Inputs": [
+        {
+          "Id": "384bc03dc7354d869aa0e77ef1972b31",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "13aa3e0cb5844690b386a31eda4a1939",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1e9b30259dfd43fb98eb191028c3a2b5",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1523e05cabc8488498d65a08df33574f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Import RevitNodes\r\nclr.AddReference(\"RevitNodes\")\r\nclr.AddReference(\"archilab\")\r\n\r\nimport Revit\r\nimport archilab\r\n\r\n# Import Revit elements\r\nfrom Revit.Elements import *\r\nimport math\r\n\r\n\r\nDEBUG=[]\r\ndef debug_revit(*args): \r\n    DEBUG.append(f\"uso debug: {len(args)}\")\r\n    for element in args:\r\n        DEBUG.append(f\"type:{type(element)}-->{element}\")\r\n    \r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\nmuros_huecos = IN[0]\r\nCORTE= IN[1]\r\nborde = IN[2]\r\n\r\n# Place your code below this line\r\nLista_puntos=[]\r\nLista_distancias=[]\r\nLista_Ancho_hosted = []\r\nLista_Vector_direccion = []\r\nLista_num_cortes = []\r\nLista_curva_host = []\r\nLista_Lon_muro = []\r\na=0\r\nGetLocation_muros = []\r\n\r\nfor muros in muros_huecos:\r\n    GetLocation = muros.GetLocation()\r\n    GetLocation_muros.append(GetLocation)\r\n    start_location_muro = muros.GetLocation().StartPoint    \r\n    end_location_muro = muros.GetLocation().EndPoint\r\n    Longitud_muro = start_location_muro.DistanceTo(end_location_muro)\r\n    Lista_Lon_muro.append(Longitud_muro)\r\n    num_cortes = math.ceil(float(Longitud_muro/CORTE))-1\r\n    Lista_num_cortes.append(num_cortes)\r\n    hosted = muros.GetHostedElements()\r\n    vector_dirección_x_muro = Vector.ByTwoPoints(start_location_muro,end_location_muro)\r\n    Lista_Vector_direccion.append(vector_dirección_x_muro)\r\n    Anchos_hosteds = []\r\n    Distancias = []\r\n    puntos = []\r\n    sub_lista_curva_host = []\r\n    puntos.append(start_location_muro)\r\n    for i in hosted:\r\n        Tipo_hosted = i.ElementType\r\n        Ancho_hosted = Tipo_hosted.GetParameterValueByName(\"Width\")\r\n        Anchos_hosteds.append(Ancho_hosted)\r\n        loclizacion_hosted = i.GetLocation()\r\n        start_point_hosted = loclizacion_hosted.Translate(vector_dirección_x_muro, -(Ancho_hosted/2))\r\n        end_point_hosted = loclizacion_hosted.Translate(vector_dirección_x_muro, (Ancho_hosted/2))        \r\n        curva_host= Line.ByStartPointEndPoint(start_point_hosted,end_point_hosted)\r\n        sub_lista_curva_host.append(curva_host)\r\n        puntos.append(start_point_hosted)\r\n        puntos.append(end_point_hosted)\r\n        Distancia_start = start_location_muro.DistanceTo(start_point_hosted)\r\n        Distancia_end = start_location_muro.DistanceTo(end_point_hosted)\r\n        Distancias.append(Distancia_start)\r\n        Distancias.append(Distancia_end)\r\n    puntos.append(end_location_muro)\r\n    Distancia_end_muro = start_location_muro.DistanceTo(end_location_muro)\r\n    Distancias.append(Distancia_end_muro)\r\n    Lista_Ancho_hosted.append(Anchos_hosteds)\r\n    Lista_distancias.append(Distancias)\r\n    Lista_puntos.append(puntos)\r\n    Lista_curva_host.append(sub_lista_curva_host)\r\n\r\nfor i, sublista in enumerate(Lista_distancias):\r\n    Lista_distancias[i] = sorted(sublista)\r\n\r\n# Logica de division de muros    \r\nLista_puntos_cortes = []\r\nLista_Planos_ordenada = []\r\nlista_j = []\r\ncrecimiento_k = []\r\nLista_porcentaje = []\r\n\r\nfor i in range (0, len(Lista_distancias)):\r\n    k=0\r\n    Lista_Planos =[]\r\n    distancia_rest = 0\r\n    lista_cortes = []\r\n    Sublista_porcentaje =[]\r\n    for indice, a in enumerate(Lista_distancias[i]): \r\n        if indice % 2 == 0:           \r\n            if (indice == 0):\r\n                distancia_rest = a\r\n                if (distancia_rest>CORTE):            \r\n                    if ((distancia_rest/CORTE)<=((CORTE+borde)/CORTE)):\r\n                        longitud = distancia_rest-borde\r\n                        porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                        Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                        Plano_per = Plane.ByOriginNormal(Punto_c1, Plane.ByOriginNormal(Punto_c1,Lista_Vector_direccion[i]).Normal)\r\n                        lista_cortes.append(longitud)                    \r\n                        Lista_Planos.append(Plano_per)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                    else:\r\n                        j=math.ceil(float(distancia_rest/CORTE))\r\n                        lista_j.append(j)\r\n                        for b in range (1,j+1):\r\n                            longitud = ((distancia_rest-borde)/j)*b\r\n                            porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                            Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                            Plano_per = Plane.ByOriginNormal(Punto_c1, Plane.ByOriginNormal(Punto_c1,Lista_Vector_direccion[i]).Normal)\r\n                            Lista_Planos.append(Plano_per)\r\n                            lista_cortes.append(longitud)\r\n                            Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                            debug_revit('punts:',Punto_c1)                        \r\n                else:\r\n                    if ((distancia_rest/borde)<2):\r\n                        longitud = 0\r\n                        porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                        Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                        lista_cortes.append(longitud)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                        \r\n                    else:\r\n                        longitud = distancia_rest-borde\r\n                        porcentaje_submuro_in_muro = longitud/Lista_Lon_muro[i]\r\n                        Punto_c1 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud)\r\n                        Plano_per = Plane.ByOriginNormal(Punto_c1, Plane.ByOriginNormal(Punto_c1,Lista_Vector_direccion[i]).Normal)\r\n                        Lista_Planos.append(Plano_per)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                        lista_cortes.append(longitud)            \r\n            else:\r\n                distancia_rest = a - Lista_distancias[i][indice-1]\r\n                if (distancia_rest>CORTE):  \r\n                    londitud2 = Lista_distancias[i][indice-1] + borde\r\n                    porcentaje_submuro_in_muro = londitud2/Lista_Lon_muro[i]\r\n                    Punto_c2 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],londitud2)\r\n                    Plano_per2 = Plane.ByOriginNormal(Punto_c2, Plane.ByOriginNormal(Punto_c2,Lista_Vector_direccion[i]).Normal)\r\n                    Lista_Planos.append(Plano_per2)\r\n                    lista_cortes.append(londitud2)\r\n                    Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                    \r\n                    if (((a-londitud2)/CORTE) > 1):\r\n                        j=math.ceil(float(distancia_rest/CORTE))\r\n                        lista_j.append(j)\r\n                        for b in range (1,j+1):\r\n                            longitud3 = (((a-londitud2)/j)*b)+londitud2\r\n                            porcentaje_submuro_in_muro = longitud3/Lista_Lon_muro[i]\r\n                            Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud3)\r\n                            Plano_per = Plane.ByOriginNormal(Punto_c3, Plane.ByOriginNormal(Punto_c3,Lista_Vector_direccion[i]).Normal)\r\n                            Lista_Planos.append(Plano_per)\r\n                            lista_cortes.append(longitud3)\r\n                            Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                            debug_revit('punts:',Punto_c3)                     \r\n                    else:\r\n                        longitud2 = 0\r\n                        porcentaje_submuro_in_muro = longitud2/Lista_Lon_muro[i]\r\n                        Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud2)\r\n                        lista_cortes.append(longitud2)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                                                \r\n                else:\r\n                    if ((a-(Lista_distancias[i][indice-2]-borde))<=CORTE):\r\n                        longitud2 = 0\r\n                        porcentaje_submuro_in_muro = longitud2/Lista_Lon_muro[i]\r\n                        Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud2)\r\n                        lista_cortes.append(longitud2)\r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)\r\n                    else:\r\n                        longitud2 = Lista_distancias[i][indice-1]+borde\r\n                        porcentaje_submuro_in_muro = longitud2/Lista_Lon_muro[i]\r\n                        Punto_c3 = Lista_puntos[i][0].Translate(Lista_Vector_direccion[i],longitud2)\r\n                        Plano_per = Plane.ByOriginNormal(Punto_c3, Plane.ByOriginNormal(Punto_c3,Lista_Vector_direccion[i]).Normal)\r\n                        Lista_Planos.append(Plano_per)\r\n                        lista_cortes.append(longitud2)                                             \r\n                        Sublista_porcentaje.append(porcentaje_submuro_in_muro)                                           \r\n            \r\n    Lista_Planos_ordenada.append(Lista_Planos)\r\n    Lista_puntos_cortes.append(lista_cortes)\r\n    Lista_porcentaje.append(Sublista_porcentaje)\r\n    \r\ncurves = []\r\nmuro_limpio = 0\r\nlist_remplace = []\r\nfor i in range (0,len(GetLocation_muros)):\r\n    curv = Curve.SplitByParameter(GetLocation_muros[i],Lista_porcentaje[i]) \r\n    curves.append(curv)\r\n    c = []\r\n    contador_muros=0\r\n    while contador_muros<len(Lista_porcentaje[i]):\r\n        c.append(muros_huecos[muro_limpio])\r\n        contador_muros += 1\r\n    list_remplace.append(c)\r\n    muro_limpio +=1    \r\n\r\ndebug_revit(longitud,Punto_c1)\r\n# Assign your output to the OUT variable.\r\nOUT = list_remplace",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "59fbfe2b18e94eeda25f5925ac89d617",
+      "Inputs": [
+        {
+          "Id": "57c3d0fa455e4bbdbbc83b38765a2ae8",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "54b4d5ffbc184d7b82e1e378aba3877b",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4bc2c3fb49f14a3eb9dabc2c446a9364",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3f90b772b96248d290b1ac3d25ff6153",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "fb17113f-7ff8-4345-b663-4d1cbb814de7",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "9bb1b8ca8b1c4b708adf2eb6fa4f2b5e",
+      "Inputs": [
+        {
+          "Id": "48d51338ca254b02a17f21864c325073",
+          "Name": "passThrough",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "243faa959400427ca1afe6d712450c61",
+          "Name": "waitFor",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "320ba0d9c1994e6898fb9621678dc42e",
+          "Name": "passThrough",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Ripped this off from Clockwork. Sorry Andy."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Flatten@var[]..[],int",
+      "Id": "6d9b611d65ee4b3484129933408b76da",
+      "Inputs": [
+        {
+          "Id": "abe2b8ca3aa54aa68129fa12ddc6a7e9",
+          "Name": "list",
+          "Description": "List to flatten.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0b5066898d0a4e92ac6abeead86b7167",
+          "Name": "amount",
+          "Description": "Layers of list nesting to remove (-1 will remove all list nestings)\n\nint\nDefault value : -1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "eeb3d0021b5741129d532fa009aedacf",
+          "Name": "list",
+          "Description": "Flattened list by amount",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Longest",
+      "Description": "Flattens a nested list of lists by a certain amount.\n\nList.Flatten (list: var[]..[], amount: int = -1): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "baf73550-ccd9-4c94-8543-5eb088bfd742",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "9b0bf59d18f647e79167b2784315707b",
+      "Inputs": [
+        {
+          "Id": "852710e9fc2a40368bf3a482d4847298",
+          "Name": "element",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 1,
+          "UseLevels": true,
+          "KeepListStructure": true
+        },
+        {
+          "Id": "7a0905637c8942a69b3c7ae35943fdf1",
+          "Name": "vector",
+          "Description": "Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a963ce110aa0401e8999975230ccd74e",
+          "Name": "rehostToClosestLevel",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5933431b80e84842abf7ffa15d0bc441",
+          "Name": "newElement",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Copies an element or a list of elements by a given vector."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Vector.ByCoordinates@double,double,double",
+      "Id": "383b50a0b07c4b2cbcf8821fd7f94c52",
+      "Inputs": [
+        {
+          "Id": "80d11889fa4e4344a1f503dba01af8c1",
+          "Name": "x",
+          "Description": "X coordinate\n\ndouble\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f7c346c1e5c1480ab162f07ff61318a9",
+          "Name": "y",
+          "Description": "Y coordinate\n\ndouble\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "717fafa7c4fb44a09656ba7e02826f3c",
+          "Name": "z",
+          "Description": "Z coordinate\n\ndouble\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "feb73210c459439cb41ba928f07160bb",
+          "Name": "Vector",
+          "Description": "Vector created by coordinates",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Form a Vector by 3 Euclidean coordinates\n\nVector.ByCoordinates (x: double = 0, y: double = 0, z: double = 0): Vector"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.SetLocation@Autodesk.DesignScript.Geometry.Geometry",
+      "Id": "a0ba96362111424bb7b5e19df185df25",
+      "Inputs": [
+        {
+          "Id": "ba1a37b3c3a049e5a888667bf70f7f08",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3b09f073427d4d1ba1a1239ac95c6ac1",
+          "Name": "geometry",
+          "Description": "New Location Point or Curve\n\nGeometry",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fd110a3a8852479eaafedea27294d433",
+          "Name": "void",
+          "Description": "void",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Update an existing element's location\n\nElement.SetLocation (geometry: Geometry): void"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 5.0,
+      "MinimumValue": 0.5,
+      "StepValue": 1.0,
+      "InputValue": 2.5,
+      "Id": "dbf9e959368e4b04a642d0bac61b4582",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2d7d6babc335412da91a6a0ca6d378f5",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces numeric values"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 1.0,
+      "MinimumValue": 0.0,
+      "StepValue": 0.05,
+      "InputValue": 0.7,
+      "Id": "f1627d3edb384589a6766c90871fa43e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4387fd5927744a62bf548937cdecf6fd",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces numeric values"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "5e26bbdc59284e6fa318a648bdecc5f9",
+      "End": "f6a10c315ee8429e954d8a84a946ba9a",
+      "Id": "c8fc3da0ccac4cf8bd82415090ee5c98",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "0c60b131af9344199e0878598e519eb5",
+      "End": "aaf80b11ba684f14bf5e38c8a434b29c",
+      "Id": "5020c53e28e04f3e84167802147533d2",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "101a9e67b9b6475e8e28b44086415daa",
+      "End": "888746e162484bd2866a1b8c38440b7c",
+      "Id": "57a13185b7a9499086759b81485a8f78",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "83eb4b62dd0c456c8bd0a6ab9d0a056d",
+      "End": "c54129e5b91d4551b52add36dccded42",
+      "Id": "c666d1719e514f0199f00f2e1044e682",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "eed44c1a573040c79e16c2615b2e60e0",
+      "End": "0aa8498b62e54224a5aef6f80bfc17e3",
+      "Id": "c82db558facd44aab8e00279601e9a8e",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "afcfe21aa5df4cd784622462f0e220aa",
+      "End": "ed3116fa579c4154b04efadb7f2d0c56",
+      "Id": "93b2e34bfb324adda6dba4cca938437c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "38878e2c17e84e50a1a4585c9536b24f",
+      "End": "52dd29720e4e447ab51df9a721f670ed",
+      "Id": "5b02714ab91e4ee0808656f0b7fa5418",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "de37933dd6a14ced9195f87d34509377",
+      "End": "98caf73d7d25435eb941b8f38e4bcef9",
+      "Id": "248bfb143146445da152bf8d6ad1fdd9",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3efde560a6974ee9a1cb5948a1574f25",
+      "End": "f93fb2ba691a46688aa62ef2cd23eec6",
+      "Id": "176252c0cffa4d9fae0ebf33c8e48445",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3efde560a6974ee9a1cb5948a1574f25",
+      "End": "bed3e69c8e0941b68f9b59c1220dd9fb",
+      "Id": "ed5dfc12b51945c6ad9a374d9b45bdc6",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3efde560a6974ee9a1cb5948a1574f25",
+      "End": "ad7f193e802540cbbfc723854c6a4413",
+      "Id": "081e4c2bc5884dda9b0cb5627b3fc0e2",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3efde560a6974ee9a1cb5948a1574f25",
+      "End": "6d6ee42c9d3246348964769c9fe05bd1",
+      "Id": "c815f13fe2874721a515ee905e75848f",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "5d6fa2e7fe6c4ad8bc59d74dbf234d9e",
+      "End": "7b4ae5dc3d554e30b49db04bc09fef8d",
+      "Id": "d43d709d85ec4e17a7408f2bc98eae62",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "96aefd8960704b5d84c65ad77ad22135",
+      "End": "3053090f32be4b0a8f81ece47e4f5860",
+      "Id": "1251a22051bf4fa5bc8832f9c0f999b0",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "110927c182bb4f12b31a7d7a5fc4fc48",
+      "End": "8dd67d49acc34b7c9d8e2fda8064085f",
+      "Id": "2506f7cb35cf4c728029326a50fc4986",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "8e2cd52915114e79803d29cf604c0028",
+      "End": "e761061fb98447c699cea4fa509bf10f",
+      "Id": "7350bad970ed49bbbf86ab8465cb48d6",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "8e2cd52915114e79803d29cf604c0028",
+      "End": "8a955d5d710942188f37dc12de8603ec",
+      "Id": "46e9e9ff41ea43f593a7450883f1b3b1",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "921c7fc49ec74f2d813539a1be26ae2d",
+      "End": "384bc03dc7354d869aa0e77ef1972b31",
+      "Id": "2e44c5281d3641e88146e7bc846f6016",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "921c7fc49ec74f2d813539a1be26ae2d",
+      "End": "57c3d0fa455e4bbdbbc83b38765a2ae8",
+      "Id": "96113665c5e349b48041ec2c1e3d2948",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "71738bb547cd497b92fba8078e5b274a",
+      "End": "99212bb7d0224f36a641c8900b8655f1",
+      "Id": "e90cd464494a42408dab3d3931486b89",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "72b8227edcab4b99bd1f5f12583ccaf0",
+      "End": "bec4ba78c8484838b43b78e0ae76083b",
+      "Id": "08bf0ff483954dc4abb81948fac16936",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a8f71b458302494fb353b76494d5f1e4",
+      "End": "7f5fd238422348d792c5e8d72c0ba13b",
+      "Id": "d1e4988ab20b48db92480f958fd05843",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b0da4b5e5a494678ba469aba467ca42d",
+      "End": "ef23e20fe0c1465b8fb96591c4843874",
+      "Id": "a0e8f2ba24c14c50b0e7254a17774ff2",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "1523e05cabc8488498d65a08df33574f",
+      "End": "3b09f073427d4d1ba1a1239ac95c6ac1",
+      "Id": "7d6f647f66e2406b80c3349914ec5e68",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3f90b772b96248d290b1ac3d25ff6153",
+      "End": "852710e9fc2a40368bf3a482d4847298",
+      "Id": "358e956f88674474bd815da5f2dc705e",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "eeb3d0021b5741129d532fa009aedacf",
+      "End": "ba1a37b3c3a049e5a888667bf70f7f08",
+      "Id": "9c667903d3f24eed9cae7eef684ebb4c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "5933431b80e84842abf7ffa15d0bc441",
+      "End": "abe2b8ca3aa54aa68129fa12ddc6a7e9",
+      "Id": "268597af343e48d98b4577fdc39333f7",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "feb73210c459439cb41ba928f07160bb",
+      "End": "7a0905637c8942a69b3c7ae35943fdf1",
+      "Id": "dd073439017a4cd6a8033a8413c8fcad",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "fd110a3a8852479eaafedea27294d433",
+      "End": "243faa959400427ca1afe6d712450c61",
+      "Id": "610d713775284102b9f19b9a393de5da",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "2d7d6babc335412da91a6a0ca6d378f5",
+      "End": "bdaf604e2a4c4453938bce17754d83ba",
+      "Id": "742b4dc5872548238dddbb7a8f6fc809",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "2d7d6babc335412da91a6a0ca6d378f5",
+      "End": "13aa3e0cb5844690b386a31eda4a1939",
+      "Id": "f03863e014a14679958f7409a265bfc9",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "2d7d6babc335412da91a6a0ca6d378f5",
+      "End": "9eb64f11114a4504809f3c67456a1028",
+      "Id": "533f1c7294dc462ca1933514222f4437",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "2d7d6babc335412da91a6a0ca6d378f5",
+      "End": "54b4d5ffbc184d7b82e1e378aba3877b",
+      "Id": "9c69eceadf52471eaac77210f144586d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "2d7d6babc335412da91a6a0ca6d378f5",
+      "End": "0e28d2a1ee2d46e3b6921693f1836f8f",
+      "Id": "06d9e4b888b64d0ba96ecb966ac22f71",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "2d7d6babc335412da91a6a0ca6d378f5",
+      "End": "4f8382ff963f4da98830b51ab5544b9b",
+      "Id": "4f380d68f77448fe8369e1b2971dc929",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4387fd5927744a62bf548937cdecf6fd",
+      "End": "1e9b30259dfd43fb98eb191028c3a2b5",
+      "Id": "e8c4f6121c9e475b965501d3109ff251",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4387fd5927744a62bf548937cdecf6fd",
+      "End": "4bc2c3fb49f14a3eb9dabc2c446a9364",
+      "Id": "5d1bbad16cbf4f08bf3227e50808241c",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [
+    "fb17113f-7ff8-4345-b663-4d1cbb814de7",
+    "baf73550-ccd9-4c94-8543-5eb088bfd742"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "archi-lab.net",
+      "Version": "2023.213.1722",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "9924ec227adb43f1aa7e533c38d9bd19",
+        "9bb1b8ca8b1c4b708adf2eb6fa4f2b5e"
+      ]
+    },
+    {
+      "Name": "Clockwork for Dynamo 2.x",
+      "Version": "2.4.0",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "372096baf4504f69bda342f2a2f35ec4",
+        "9b0bf59d18f647e79167b2784315707b"
+      ]
+    }
+  ],
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "2.13",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "2.0",
+      "Data": {}
+    }
+  ],
+  "Author": "None provided",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.17.0.3472",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -0.9462323784828186,
+      "EyeY": 3.6336631774902344,
+      "EyeZ": -21.667612075805664,
+      "LookX": 0.38383156061172485,
+      "LookY": -6.0092964172363281,
+      "LookZ": 19.918107986450195,
+      "UpX": 0.0012886859476566315,
+      "UpY": 0.99705290794372559,
+      "UpZ": 0.076705574989318848
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Name": "ELIMINAR EL LISTADO DE MUROS",
+        "ShowGeometry": true,
+        "Id": "02d71868925c421084dc4485d8b62edb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": true,
+        "X": -4312.9345330298611,
+        "Y": -281.51526478806721
+      },
+      {
+        "Name": "Thread.Pause",
+        "ShowGeometry": true,
+        "Id": "5cf5b25eae98498aa00328fd4f98d173",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3927.9472925313762,
+        "Y": -244.04041920342263
+      },
+      {
+        "Name": "Code Block",
+        "ShowGeometry": true,
+        "Id": "09067267745d478ba58ee232e825f18d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -4284.4931574344673,
+        "Y": -144.00533168089981
+      },
+      {
+        "Name": "lista de muros",
+        "ShowGeometry": true,
+        "Id": "8a5dbcc330b344e181cf6c79d502c9f7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2240.45755345697,
+        "Y": -1074.54176465255
+      },
+      {
+        "Name": "Curvas que reemplazan muro",
+        "ShowGeometry": true,
+        "Id": "b0fd00a4f64b46e0831573add9dc5cfd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1722.72582077209,
+        "Y": -876.893737104092
+      },
+      {
+        "Name": "PassThrough",
+        "ShowGeometry": true,
+        "Id": "9924ec227adb43f1aa7e533c38d9bd19",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1111.71686073459,
+        "Y": -992.564932458666
+      },
+      {
+        "Name": "List.Flatten",
+        "ShowGeometry": true,
+        "Id": "b72b6bd9aaed46e1a02c250060f44937",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1601.17562511285,
+        "Y": -1069.91674319216
+      },
+      {
+        "Name": "Element.CopyByVector",
+        "ShowGeometry": true,
+        "Id": "372096baf4504f69bda342f2a2f35ec4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1962.23290176285,
+        "Y": -1081.3613350627
+      },
+      {
+        "Name": "Vector.ByCoordinates",
+        "ShowGeometry": true,
+        "Id": "40117ee760e8418d80f227eef9fccaae",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2279.31689492399,
+        "Y": -845.031475219125
+      },
+      {
+        "Name": "Element.SetLocation",
+        "ShowGeometry": true,
+        "Id": "5bd18e6ff3324f6ea473d7dc98208711",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1371.04312411392,
+        "Y": -988.036139129947
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "bc98754aea594c8e9a580bbd9ff1451f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "X": -4663.53295302735,
+        "Y": -448.803208131569
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "940887ac8e8c42b3b6de4e1eaec47d11",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3492.480432680793,
+        "Y": -626.739690522437
+      },
+      {
+        "Name": "CLASIFICACION DE MUROS",
+        "ShowGeometry": true,
+        "Id": "80a8c57c5d04462a80f7673c0c1c8ef5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3279.3071575065796,
+        "Y": -627.8617482863441
+      },
+      {
+        "Name": "LISTA MUROS LIMPIOS MAYORES",
+        "ShowGeometry": true,
+        "Id": "6520a66f88fa478c9e626f4652a173d7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2980.50846924521,
+        "Y": -611.126225123986
+      },
+      {
+        "Name": "List.FilterByBoolMask",
+        "ShowGeometry": true,
+        "Id": "adb57c2092cb49209bdf2208d5415b92",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2615.87271063718,
+        "Y": -646.930784344034
+      },
+      {
+        "Name": "Dictionary.ByKeysValues",
+        "ShowGeometry": true,
+        "Id": "5509c97d1a804ff7b6482d1d6457f444",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3771.75800037741,
+        "Y": -629.91118516993
+      },
+      {
+        "Name": "List.GroupByKey",
+        "ShowGeometry": true,
+        "Id": "81f092ce51c840ad99bae7962d72bc57",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -4058.00244206678,
+        "Y": -630.963554440847
+      },
+      {
+        "Name": "ElementType.Name",
+        "ShowGeometry": true,
+        "Id": "f7322b7b168f472b98291a1a3d2a9152",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -4341.86267190268,
+        "Y": -643.986012446618
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "6e82d63f6d304c52b3d5075bcf2a7bb7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1602.1078347984962,
+        "Y": -235.87435917517553
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "59fbfe2b18e94eeda25f5925ac89d617",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2238.077705238466,
+        "Y": -442.97371685981949
+      },
+      {
+        "Name": "PassThrough",
+        "ShowGeometry": true,
+        "Id": "9bb1b8ca8b1c4b708adf2eb6fa4f2b5e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1123.7583424928762,
+        "Y": -350.09879876660455
+      },
+      {
+        "Name": "List.Flatten",
+        "ShowGeometry": true,
+        "Id": "6d9b611d65ee4b3484129933408b76da",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1613.2171068711361,
+        "Y": -427.45060950010452
+      },
+      {
+        "Name": "Element.CopyByVector",
+        "ShowGeometry": true,
+        "Id": "9b0bf59d18f647e79167b2784315707b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1974.2743835211361,
+        "Y": -438.89520137064147
+      },
+      {
+        "Name": "Vector.ByCoordinates",
+        "ShowGeometry": true,
+        "Id": "383b50a0b07c4b2cbcf8821fd7f94c52",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2286.0117091451862,
+        "Y": -210.58534283270154
+      },
+      {
+        "Name": "Element.SetLocation",
+        "ShowGeometry": true,
+        "Id": "a0ba96362111424bb7b5e19df185df25",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1383.0846058722061,
+        "Y": -345.57000543788553
+      },
+      {
+        "Name": "LONGITUD DE CORTE (M)",
+        "ShowGeometry": true,
+        "Id": "dbf9e959368e4b04a642d0bac61b4582",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -4850.68244895308,
+        "Y": -1059.33956562336
+      },
+      {
+        "Name": "BORDE (M)",
+        "ShowGeometry": true,
+        "Id": "f1627d3edb384589a6766c90871fa43e",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -4852.09314332976,
+        "Y": -915.766541005288
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "0a07c95e65d041dbb68b3d18a7a3a266",
+        "Title": "SELECCION DE ELEMENTOS TIPO MURO",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "bc98754aea594c8e9a580bbd9ff1451f"
+        ],
+        "HasNestedGroups": false,
+        "Left": -4673.53295302735,
+        "Top": -703.803208131569,
+        "Width": 199.75666666666669,
+        "Height": 387.0,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": -448.803208131569,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 245.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "64a38d8142574dbb89cad56fbcdc7453",
+        "Title": "LISTA DE ELEMENTOS CLASIFICADOS SEGUN EL CASO DE DIVISIÓN",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "f7322b7b168f472b98291a1a3d2a9152",
+          "81f092ce51c840ad99bae7962d72bc57",
+          "5509c97d1a804ff7b6482d1d6457f444",
+          "adb57c2092cb49209bdf2208d5415b92",
+          "6520a66f88fa478c9e626f4652a173d7",
+          "80a8c57c5d04462a80f7673c0c1c8ef5",
+          "940887ac8e8c42b3b6de4e1eaec47d11"
+        ],
+        "HasNestedGroups": false,
+        "Left": -4351.86267190268,
+        "Top": -719.930784344034,
+        "Width": 1980.9899612655,
+        "Height": 255.967229903187,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": -646.930784344034,
+        "InitialHeight": 180.80455922004796,
+        "TextblockHeight": 63.0,
+        "Background": "#FFFFB8D8"
+      },
+      {
+        "Id": "ac7b4921f9cc4911ab5e19808d109910",
+        "Title": "PARTICIÓN MUROS SIN HUECO",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "5bd18e6ff3324f6ea473d7dc98208711",
+          "40117ee760e8418d80f227eef9fccaae",
+          "372096baf4504f69bda342f2a2f35ec4",
+          "b72b6bd9aaed46e1a02c250060f44937",
+          "9924ec227adb43f1aa7e533c38d9bd19",
+          "b0fd00a4f64b46e0831573add9dc5cfd",
+          "8a5dbcc330b344e181cf6c79d502c9f7"
+        ],
+        "HasNestedGroups": false,
+        "Left": -2289.31689492399,
+        "Top": -1154.3613350627,
+        "Width": 1466.6000341893998,
+        "Height": 506.32985984357492,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": -1081.3613350627,
+        "InitialHeight": 381.32985984357492,
+        "TextblockHeight": 63.0,
+        "Background": "#FFA4E1FF"
+      },
+      {
+        "Id": "79db41ba595949028f932af2aefa51ec",
+        "Title": "PARAMETRO DE IMPRESORA PARA DIVISIÓN",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "f1627d3edb384589a6766c90871fa43e",
+          "dbf9e959368e4b04a642d0bac61b4582"
+        ],
+        "HasNestedGroups": false,
+        "Left": -4862.09314332976,
+        "Top": -1219.33956562336,
+        "Width": 369.41069437668011,
+        "Height": 435.57302461807194,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": -1059.33956562336,
+        "InitialHeight": 288.57302461807194,
+        "TextblockHeight": 150.0,
+        "Background": "#FFFFAA45"
+      },
+      {
+        "Id": "7d77c2394e6f4f0bb3d8c91147c9f8a1",
+        "Title": "Eliminar muros originales",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "02d71868925c421084dc4485d8b62edb",
+          "5cf5b25eae98498aa00328fd4f98d173",
+          "09067267745d478ba58ee232e825f18d"
+        ],
+        "HasNestedGroups": false,
+        "Left": -4322.9345330298611,
+        "Top": -354.51526478806721,
+        "Width": 635.98724049848488,
+        "Height": 342.5099331071674,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": -281.51526478806721,
+        "InitialHeight": 282.5099331071674,
+        "TextblockHeight": 63.0,
+        "Background": "#FFB5B5B5"
+      },
+      {
+        "Id": "88a76c4c43674d29875d601e2ec3cec3",
+        "Title": "PARTICIÓN MUROS CON HUECO",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "a0ba96362111424bb7b5e19df185df25",
+          "383b50a0b07c4b2cbcf8821fd7f94c52",
+          "9b0bf59d18f647e79167b2784315707b",
+          "6d9b611d65ee4b3484129933408b76da",
+          "9bb1b8ca8b1c4b708adf2eb6fa4f2b5e",
+          "59fbfe2b18e94eeda25f5925ac89d617",
+          "6e82d63f6d304c52b3d5075bcf2a7bb7"
+        ],
+        "HasNestedGroups": false,
+        "Left": -2296.0117091451862,
+        "Top": -515.97371685981943,
+        "Width": 1461.25336665231,
+        "Height": 502.38837402711789,
+        "FontSize": 36.0,
+        "GroupStyleId": "00000000-0000-0000-0000-000000000000",
+        "InitialTop": -442.97371685981949,
+        "InitialHeight": 377.38837402711795,
+        "TextblockHeight": 63.0,
+        "Background": "#FF48B9FF"
+      }
+    ],
+    "X": 4270.0721408458958,
+    "Y": 691.530826055262,
+    "Zoom": 0.90846154714205263
+  }
+}
