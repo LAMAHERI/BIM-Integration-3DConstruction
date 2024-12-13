@@ -32,9 +32,4 @@ To set up the environment for this project, follow the steps below:
    git clone https://github.com/LAMAHERI/BIM-Integration-3DConstruction.git
 
 
-### Key Enhancements:
-- Fixed inconsistent formatting in the authors' section.
-- Linked email addresses for ease of access.
-- Added an **Environment** section to guide the setup.
-- Included a brief **Project Description** for context.
 
